@@ -1,0 +1,56 @@
+{
+  "_provenance": "Synthetic test personas (not real students) evaluated against real dataset records. Expected outcomes were assigned by the developer (AI assistant) by reading the RAW dataset columns (not the normalized fields), on 2026-10-18. Labels: eligible = every stated condition is met by the persona; not_eligible = at least one stated condition is clearly violated; undetermined = no violation, but a condition cannot be decided from the persona and the record (missing persona data, a scheme-specific condition, or a rule the record does not state). Needs a human spot-check.",
+  "personas": {
+    "P1": {"gender": "FEMALE", "education_level": "UG", "year_of_study": 1, "discipline": "ENGINEERING_TECHNOLOGY", "annual_family_income": 300000, "qualifying_exam_percentage": 82, "category": "OBC", "has_disability": false, "is_indian_citizen": true, "special_circumstances_none": true, "state": "Tamil Nadu"},
+    "P2": {"gender": "MALE", "education_level": "UG", "year_of_study": 2, "discipline": "ENGINEERING_TECHNOLOGY", "annual_family_income": 900000, "qualifying_exam_percentage": 75, "category": "GENERAL", "has_disability": false, "is_indian_citizen": true, "special_circumstances_none": true, "state": "Maharashtra"},
+    "P3": {"gender": "MALE", "education_level": "PRE_MATRIC", "current_class": 9, "discipline": "SCHOOL_GENERAL", "annual_family_income": 200000, "category": "SC", "has_disability": true, "disability_percent": 50, "is_indian_citizen": true, "special_circumstances_none": true, "state": "Bihar"},
+    "P4": {"gender": "FEMALE", "education_level": "PG", "year_of_study": 1, "discipline": "AGRICULTURE", "cgpa": 8.0, "category": "ST", "has_disability": false, "is_indian_citizen": true, "special_circumstances_none": true, "state": "Assam"},
+    "P5": {"gender": "MALE", "education_level": "UG", "year_of_study": 1, "discipline": "SCIENCE", "annual_family_income": 150000, "qualifying_exam_percentage": 85, "category": "GENERAL", "has_disability": false, "is_indian_citizen": true, "special_circumstances": ["WORKER_WARD_BEEDI_CINE_MINE"], "state": "Jharkhand"},
+    "P6": {"gender": "FEMALE", "education_level": "DIPLOMA", "year_of_study": 1, "discipline": "ENGINEERING_TECHNOLOGY", "annual_family_income": 500000, "qualifying_exam_percentage": 70, "category": "GENERAL", "is_indian_citizen": true, "state": "Kerala"}
+  },
+  "cases": [
+    {"persona": "P1", "scholarship": "IND-NSP-003", "expected": "undetermined", "why": "Girl, tech degree, 1st year, income <=8L all met; 'maximum two girls per family' unknown"},
+    {"persona": "P1", "scholarship": "IND-NSP-001", "expected": "not_eligible", "why": "Requires orphan/COVID/martyr-ward/parent-illness background; persona declared none"},
+    {"persona": "P1", "scholarship": "IND-NSP-005", "expected": "not_eligible", "why": "Requires disability >=40%"},
+    {"persona": "P1", "scholarship": "IND-NSP-004", "expected": "not_eligible", "why": "Diploma only; persona is UG"},
+    {"persona": "P1", "scholarship": "IND-PRI-001", "expected": "eligible", "why": "UG 1st year, Class 12 >=60% (82), income <=15L, resident Indian"},
+    {"persona": "P1", "scholarship": "IND-NSP-015", "expected": "not_eligible", "why": "North-Eastern states only"},
+    {"persona": "P1", "scholarship": "IND-NSP-029", "expected": "not_eligible", "why": "J&K / Ladakh only"},
+
+    {"persona": "P2", "scholarship": "IND-NSP-003", "expected": "not_eligible", "why": "Girls only"},
+    {"persona": "P2", "scholarship": "IND-NSP-001", "expected": "not_eligible", "why": "Income 9L > 8L and no beneficiary background"},
+    {"persona": "P2", "scholarship": "IND-PRI-001", "expected": "not_eligible", "why": "First-year UG only; persona in year 2"},
+    {"persona": "P2", "scholarship": "IND-NSP-007", "expected": "not_eligible", "why": "Ward of beedi/cine/mine worker only"},
+    {"persona": "P2", "scholarship": "IND-NSP-017", "expected": "not_eligible", "why": "Agriculture disciplines only"},
+    {"persona": "P2", "scholarship": "IND-NSP-014", "expected": "not_eligible", "why": "Income 9L > 4.5L"},
+    {"persona": "P2", "scholarship": "IND-NSP-022", "expected": "not_eligible", "why": "Ward/widow of RPF/RPSF personnel only"},
+
+    {"persona": "P3", "scholarship": "IND-NSP-025", "expected": "undetermined", "why": "Class IX-X, disability 50%, income <=2.5L met; academic progression requirements not stated"},
+    {"persona": "P3", "scholarship": "IND-NSP-012", "expected": "not_eligible", "why": "Post-matric only (Class XI onwards)"},
+    {"persona": "P3", "scholarship": "IND-NSP-008", "expected": "not_eligible", "why": "Worker-ward scheme; persona declared none"},
+    {"persona": "P3", "scholarship": "IND-NSP-009", "expected": "not_eligible", "why": "OBC/EBC/DNT only; persona is SC"},
+    {"persona": "P3", "scholarship": "IND-NSP-011", "expected": "not_eligible", "why": "Higher education only"},
+    {"persona": "P3", "scholarship": "IND-PRI-003", "expected": "undetermined", "why": "School from Std VIII met; income criterion not stated numerically"},
+
+    {"persona": "P4", "scholarship": "IND-NSP-018", "expected": "undetermined", "why": "PG agriculture met; must study outside domicile state (unknown); academic conditions not stated"},
+    {"persona": "P4", "scholarship": "IND-NSP-021", "expected": "undetermined", "why": "ST, PG met; income (<=6L) not provided by persona"},
+    {"persona": "P4", "scholarship": "IND-NSP-015", "expected": "undetermined", "why": "Assam, PG professional met; 60% in HSSLC and income not provided"},
+    {"persona": "P4", "scholarship": "IND-PRI-002", "expected": "undetermined", "why": "PG 1st year, CGPA 8 >=7.5 met; agriculture not among the listed disciplines of an open-ended list"},
+    {"persona": "P4", "scholarship": "IND-NSP-003", "expected": "not_eligible", "why": "Degree (UG) only"},
+    {"persona": "P4", "scholarship": "IND-NSP-017", "expected": "not_eligible", "why": "UG only"},
+
+    {"persona": "P5", "scholarship": "IND-NSP-007", "expected": "undetermined", "why": "Post-matric, worker ward met; academic and income conditions are scheme-specific (not stated)"},
+    {"persona": "P5", "scholarship": "IND-PRI-001", "expected": "eligible", "why": "UG 1st year, 85% >=60, income <=15L, resident Indian"},
+    {"persona": "P5", "scholarship": "IND-NSP-014", "expected": "undetermined", "why": "UG, income <=4.5L met; 80th percentile and regular admission unknown"},
+    {"persona": "P5", "scholarship": "IND-NSP-001", "expected": "not_eligible", "why": "Technical education only; persona studies science (also no beneficiary background stated: persona's only tag is worker ward)"},
+    {"persona": "P5", "scholarship": "IND-NSP-026", "expected": "not_eligible", "why": "Statistics/Mathematics/CS ISI programmes only; persona's discipline is natural science"},
+    {"persona": "P5", "scholarship": "IND-NSP-019", "expected": "not_eligible", "why": "SC/OBC or PM CARES children only; persona General without PM CARES"},
+
+    {"persona": "P6", "scholarship": "IND-NSP-004", "expected": "undetermined", "why": "Girl, tech diploma, 1st year, income <=8L met; two-girls-per-family unknown"},
+    {"persona": "P6", "scholarship": "IND-NSP-006", "expected": "undetermined", "why": "Disability status not provided"},
+    {"persona": "P6", "scholarship": "IND-NSP-002", "expected": "undetermined", "why": "Beneficiary background not provided"},
+    {"persona": "P6", "scholarship": "IND-NSP-003", "expected": "not_eligible", "why": "Degree only; persona in diploma"},
+    {"persona": "P6", "scholarship": "IND-PRI-001", "expected": "not_eligible", "why": "Undergraduate degree only"},
+    {"persona": "P6", "scholarship": "IND-NSP-012", "expected": "not_eligible", "why": "Income 5L > 2.5L"}
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "_comment": "Controlled vocabularies and normalization rules. Edit this file (not code) to change how source text maps to structured eligibility rules. Patterns are case-insensitive regular expressions.",
+  "version": "2026.10.1",
+
+  "education_levels": [
+    {"code": "PRE_MATRIC", "label": "School, up to Class 10"},
+    {"code": "POST_MATRIC_SCHOOL", "label": "School, Class 11-12"},
+    {"code": "DIPLOMA", "label": "Diploma / Polytechnic / ITI"},
+    {"code": "UG", "label": "Undergraduate degree"},
+    {"code": "PG", "label": "Postgraduate degree"},
+    {"code": "RESEARCH", "label": "Research (JRF/SRF/PhD/Post-doc)"}
+  ],
+  "education_level_map": {
+    "pre-matric": ["PRE_MATRIC"],
+    "post-matric": ["POST_MATRIC_SCHOOL", "DIPLOMA", "UG", "PG", "RESEARCH"],
+    "school": ["PRE_MATRIC", "POST_MATRIC_SCHOOL"],
+    "school/ug": ["PRE_MATRIC", "POST_MATRIC_SCHOOL", "UG"],
+    "diploma": ["DIPLOMA"],
+    "degree": ["UG"],
+    "ug": ["UG"],
+    "pg": ["PG"],
+    "ug/pg": ["UG", "PG"],
+    "pg/research": ["PG", "RESEARCH"],
+    "research": ["RESEARCH"],
+    "higher education": ["UG", "PG"],
+    "coaching": "unknown"
+  },
+  "education_level_notes": {
+    "higher education": "Interpreted as post-Class-12 degree study (UG/PG). Diploma is not assumed.",
+    "coaching": "Coaching schemes are not tied to one education level; check the exam-specific conditions."
+  },
+
+  "disciplines": [
+    {"code": "ENGINEERING_TECHNOLOGY", "label": "Engineering / Technology"},
+    {"code": "MEDICAL_HEALTH", "label": "Medicine / Health / Pharmacy"},
+    {"code": "AGRICULTURE", "label": "Agriculture and allied"},
+    {"code": "SCIENCE", "label": "Natural sciences"},
+    {"code": "MATHEMATICS_STATISTICS", "label": "Mathematics / Statistics"},
+    {"code": "COMPUTER_APPLICATIONS", "label": "Computer applications (BCA/MCA/B.Sc CS)"},
+    {"code": "COMMERCE_MANAGEMENT", "label": "Commerce / Management"},
+    {"code": "ARTS_HUMANITIES", "label": "Arts / Humanities / Social sciences"},
+    {"code": "LAW", "label": "Law"},
+    {"code": "EDUCATION", "label": "Education / Teaching"},
+    {"code": "SCHOOL_GENERAL", "label": "School (no discipline)"},
+    {"code": "OTHER", "label": "Other"}
+  ],
+  "_discipline_rules": "strict: a student outside the list fails the rule. open: list is illustrative ('and other ...'), a student outside it is UNKNOWN, not failed. any: no restriction.",
+  "discipline_map": [
+    {"pattern": "^technical education$", "rule": "strict", "disciplines": ["ENGINEERING_TECHNOLOGY"]},
+    {"pattern": "agricultur", "rule": "strict", "disciplines": ["AGRICULTURE"]},
+    {"pattern": "renewable energy", "rule": "open", "disciplines": ["ENGINEERING_TECHNOLOGY", "SCIENCE"]},
+    {"pattern": "statistics; mathematics; computer science", "rule": "strict", "disciplines": ["MATHEMATICS_STATISTICS", "COMPUTER_APPLICATIONS"]},
+    {"pattern": "engineering; medicine; pharmacy; it", "rule": "open", "disciplines": ["ENGINEERING_TECHNOLOGY", "MEDICAL_HEALTH", "COMPUTER_APPLICATIONS"]},
+    {"pattern": "engineering; technology; energy; life sciences", "rule": "open", "disciplines": ["ENGINEERING_TECHNOLOGY", "SCIENCE", "COMPUTER_APPLICATIONS"]},
+    {"pattern": "professional/technical", "rule": "open", "disciplines": ["ENGINEERING_TECHNOLOGY", "MEDICAL_HEALTH", "COMMERCE_MANAGEMENT", "LAW", "AGRICULTURE", "COMPUTER_APPLICATIONS"]},
+    {"pattern": "professional/higher-education", "rule": "any", "disciplines": []},
+    {"pattern": "^all eligible|^eligible|school education|competitive examinations", "rule": "any", "disciplines": []}
+  ],
+
+  "categories": [
+    {"code": "GENERAL", "label": "General"},
+    {"code": "EWS", "label": "EWS"},
+    {"code": "OBC", "label": "OBC"},
+    {"code": "EBC", "label": "EBC"},
+    {"code": "DNT", "label": "DNT (De-notified tribes)"},
+    {"code": "SC", "label": "SC"},
+    {"code": "ST", "label": "ST"}
+  ],
+  "category_no_restriction_patterns": ["^any$", "^all$", "government reservation norms"],
+  "category_alt_tag_patterns": [{"pattern": "pm cares", "tag": "PM_CARES_CHILD"}],
+
+  "genders": [
+    {"code": "FEMALE", "label": "Female"},
+    {"code": "MALE", "label": "Male"},
+    {"code": "OTHER", "label": "Other / prefer to self-describe"}
+  ],
+
+  "states": [
+    "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana",
+    "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur",
+    "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana",
+    "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "Andaman and Nicobar Islands", "Chandigarh",
+    "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"
+  ],
+  "state_aliases": {"j&k": "Jammu and Kashmir", "nct of delhi": "Delhi", "orissa": "Odisha", "pondicherry": "Puducherry"},
+  "all_india_patterns": ["^all india$", "^any$", "^india$"],
+
+  "special_circumstances": [
+    {"code": "ORPHAN", "label": "Orphan", "group": "beneficiary"},
+    {"code": "COVID_BEREAVED", "label": "Parent(s) died due to COVID-19", "group": "beneficiary"},
+    {"code": "ARMED_FORCES_MARTYR_WARD", "label": "Ward of Armed Forces / Central Paramilitary personnel martyred in action", "group": "beneficiary"},
+    {"code": "PARENT_CRITICAL_ILLNESS_OR_ACCIDENT", "label": "Parent with critical illness, or died / >80% disabled in an accident", "group": "beneficiary"},
+    {"code": "WORKER_WARD_BEEDI_CINE_MINE", "label": "Child/ward of a Beedi, Cine, Iron/Manganese/Chrome ore or Limestone/Dolomite mine worker", "group": "beneficiary"},
+    {"code": "RPF_RPSF_WARD", "label": "Ward/widow of RPF/RPSF personnel", "group": "beneficiary"},
+    {"code": "CAPF_AR_WARD", "label": "Ward/widow of CAPF or Assam Rifles personnel", "group": "beneficiary"},
+    {"code": "POLICE_MARTYR_WARD", "label": "Ward of State/UT police personnel martyred in terror/Naxal attacks", "group": "beneficiary"},
+    {"code": "PM_CARES_CHILD", "label": "Beneficiary of the PM CARES for Children scheme", "group": "beneficiary"}
+  ],
+
+  "_condition_patterns": "Applied to each ';'-separated segment of special_background_requirement. 'tags': satisfied if the student declares ANY of them (segments mapping to tags are OR-ed together). 'covered': already enforced by another structured rule. 'citizenship': uses is_indian_citizen. 'question': becomes a per-scholarship yes/no question the student can answer. Unmatched segments also become questions.",
+  "condition_patterns": [
+    {"pattern": "swanath beneficiary", "tags": ["ORPHAN", "COVID_BEREAVED", "ARMED_FORCES_MARTYR_WARD", "PARENT_CRITICAL_ILLNESS_OR_ACCIDENT"]},
+    {"pattern": "^orphan$", "tags": ["ORPHAN"]},
+    {"pattern": "covid", "tags": ["COVID_BEREAVED"]},
+    {"pattern": "armed forces.*martyr", "tags": ["ARMED_FORCES_MARTYR_WARD"]},
+    {"pattern": "critical life-threatening disease|severely disabled", "tags": ["PARENT_CRITICAL_ILLNESS_OR_ACCIDENT"]},
+    {"pattern": "beedi|cine|lsdm|mine worker", "tags": ["WORKER_WARD_BEEDI_CINE_MINE"]},
+    {"pattern": "rpf|rpsf", "tags": ["RPF_RPSF_WARD"]},
+    {"pattern": "capf|assam rifles", "tags": ["CAPF_AR_WARD"]},
+    {"pattern": "police personnel martyred", "tags": ["POLICE_MARTYR_WARD"]},
+    {"pattern": "pm cares", "covered": "category"},
+    {"pattern": "^girl student$", "covered": "gender"},
+    {"pattern": "specially-abled|with disability admitted|with benchmark disability|^student with disability", "covered": "disability"},
+    {"pattern": "permanent resident of a north eastern state", "covered": "states"},
+    {"pattern": "domicile/eligibility linked to jammu kashmir", "covered": "states"},
+    {"pattern": "economically disadvantaged sc/obc", "covered": "category"},
+    {"pattern": "^indian national$|resident indian|indian resident|indian citizen", "citizenship": true},
+    {"pattern": "udid/aadhaar required", "covered": "documents"},
+    {"pattern": "class xii board merit", "covered": "academic"},
+    {"pattern": "full-time first-year|first-year full-time", "covered": "year"}
+  ],
+
+  "academic_none_patterns": ["no fixed minimum", "no universal minimum"],
+  "academic_percentile_pattern": "percentile",
+  "academic_alternative_pattern": "\\bor\\b",
+
+  "income_none_values": ["no income ceiling stated"],
+  "unknown_values": ["unknown", "", "nan", "n/a", "not specified", "scheme/norm dependent", "programme-specific", "programme admission merit", "scheme-specific"]
+}

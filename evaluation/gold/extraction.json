@@ -1,0 +1,25 @@
+{
+  "_provenance": "Gold values hand-checked by the developer (AI assistant) against the archived document text in snapshots/ on 2026-10-18. null means the document does not state the value (a model returning a value there is counted as a hallucination). Needs a human spot-check.",
+  "documents": [
+    {
+      "id": "aicte_swanath_guideline",
+      "text_file": "snapshots/AICTE_3039_G.pdf.txt",
+      "url": "https://scholarships.gov.in/public/schemeGuidelines/AICTE/AICTE_3039_G.pdf",
+      "gold": {"income_limit": 800000, "amount_max_inr": 50000, "min_disability_percent": null, "deadline": null},
+      "notes": "The 80% disability figure refers to a parent disabled in an accident, not the student; a student disability rule is NOT stated."
+    },
+    {
+      "id": "depwd_post_matric",
+      "text_file": "snapshots/depwd_scholarship-post-matric.txt",
+      "url": "https://depwd.gov.in/en/scholarship-post-matric/",
+      "gold": {"income_limit": 250000, "min_disability_percent": 40, "education_levels": ["POST_MATRIC_SCHOOL", "DIPLOMA", "UG", "PG"], "deadline": null}
+    },
+    {
+      "id": "nmms_guideline",
+      "text_file": "snapshots/NMMSSGuidelines.pdf.txt",
+      "url": "https://scholarships.gov.in/public/schemeGuidelines/NMMSSGuidelines.pdf",
+      "gold": {"income_limit": 350000, "amount_max_inr": 12000, "education_levels": ["PRE_MATRIC", "POST_MATRIC_SCHOOL"], "min_disability_percent": null, "deadline": null},
+      "notes": "PDF text layer is OCR-like with errors (e.g. '{ 120001' for 'Rs 12000/-')."
+    }
+  ]
+}

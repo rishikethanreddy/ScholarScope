@@ -1,0 +1,64 @@
+{
+  "_comment": "Operational policies. These are configurable engineering defaults, not universal truths.",
+
+  "freshness": {
+    "_comment": "A record is 'stale' when its last successful official check is older than max_age_hours for its situation.",
+    "deadline_approaching_days": 14,
+    "max_age_hours_deadline_approaching": 24,
+    "max_age_hours_open": 168,
+    "max_age_hours_closed_or_unknown": 720,
+    "recently_changed_days": 7,
+    "recently_changed_crawl_factor": 0.5
+  },
+
+  "source_precedence": {
+    "_comment": "Higher wins when choosing the published value among current evidence. Ties go to the most recent retrieval.",
+    "official": 100,
+    "institutional": 80,
+    "manual": 70,
+    "curated_dataset": 50,
+    "aggregator": 30,
+    "other": 10,
+    "fixture": 100
+  },
+
+  "change_policy": {
+    "material_fields": [
+      "deadline", "open_date", "renewal_type", "listing_presence", "income_rule", "income_limit",
+      "academic_rule", "min_percentage", "min_cgpa", "education_levels", "education_rule", "disciplines",
+      "discipline_rule", "amount_text", "required_documents", "application_url", "official_source_url",
+      "conditions", "categories", "genders", "eligible_states", "disability_rule", "min_disability_percent",
+      "allowed_years", "class_range", "exclusions", "page_content", "status_reported"
+    ],
+    "minor_fields": ["provider", "scholarship_type", "amount_frequency", "application_method", "description", "eligibility_summary", "selection_process"],
+    "cosmetic_fields": ["name"],
+    "_auto_accept": "A change is applied without review only when ALL hold: source classification in auto_accept_classifications, extraction method in auto_accept_methods, field in auto_accept_fields.",
+    "auto_accept_classifications": ["official", "fixture"],
+    "auto_accept_methods": ["nsp_listing_parser"],
+    "auto_accept_fields": ["deadline", "open_date", "renewal_type", "official_source_url"]
+  },
+
+  "matching": {
+    "auto_match_threshold": 0.86,
+    "possible_match_threshold": 0.6,
+    "url_bonus": 0.12,
+    "provider_bonus": 0.04,
+    "discriminator_groups": [
+      ["degree", "diploma"],
+      ["pre", "post"],
+      ["ug", "pg"],
+      ["school", "college"],
+      ["nts", "pgs", "jrf"],
+      ["fresh", "renewal"],
+      ["undergraduate", "postgraduate"]
+    ],
+    "stopwords": ["scheme", "scholarship", "scholarships", "for", "of", "the", "to", "and", "in", "students", "student", "central", "sector", "a"]
+  },
+
+  "source_health": {
+    "pause_after_consecutive_failures": 5,
+    "max_backoff_hours": 24,
+    "pause_on_http_status": [401, 403, 451],
+    "min_parsed_ratio_vs_previous": 0.5
+  }
+}

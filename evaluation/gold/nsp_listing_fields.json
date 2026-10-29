@@ -1,0 +1,16 @@
+{
+  "_provenance": "Read by the developer (AI assistant) from the pill labels of every scheme row in snapshots/nsp_all_scholarships_2026-10-18.html. Keys are distinctive title substrings (whitespace-insensitive). Needs a human spot-check.",
+  "expected_scheme_count": 31,
+  "default": {"open_date": "2026-06-01", "deadline": "2026-10-31", "renewal_only": false},
+  "overrides": {
+    "Jammu Kashmir And Ladakh": {"renewal_only": true},
+    "National Scholarship For Post Graduate Studies": {"open_date": "2026-09-16"},
+    "Ishan Uday": {"open_date": "2026-09-16"},
+    "Top Class Education In Schools": {"renewal_only": true},
+    "Free Coaching": {"open_date": "2026-08-03"},
+    "Pre Matric Scholarship For Students With Disabilities": {"open_date": "2026-07-25"},
+    "Post Matric Scholarship For Students With Disabilities": {"open_date": "2026-07-25"},
+    "College And University Students (CSSS)": {"renewal_only": true},
+    "Students Of NER For Higher Professional": {"open_date": "2026-07-15", "renewal_only": true}
+  }
+}

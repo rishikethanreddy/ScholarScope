@@ -1,0 +1,25 @@
+# secrets
+.env
+!.env.example
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+# data generated at runtime
+backend/*.db
+backend/*.db-*
+backend/data/snapshots/
+backend/data/demo/
+# node
+frontend/node_modules/
+frontend/dist/
+
+# test artifacts
+e2e/artifacts/
+
+# not for the public repo
+_legacy/*.db
+*.log
+paper/

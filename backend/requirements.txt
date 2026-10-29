@@ -1,0 +1,12 @@
+# Runtime
+alembic==1.20.0
+beautifulsoup4==4.15.0
+fastapi==0.143.3
+httpx==0.28.1
+pydantic==2.14.1
+PyJWT==2.15.1
+pypdf==6.21.1
+python-dotenv==1.2.4
+python-multipart==0.0.32
+SQLAlchemy==2.1.5
+uvicorn==0.54.0

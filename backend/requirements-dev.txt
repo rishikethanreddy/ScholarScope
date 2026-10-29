@@ -1,0 +1,4 @@
+-r requirements.txt
+# Development / testing
+playwright==1.64.0
+pytest==9.1.1

@@ -1,0 +1,1081 @@
+{
+  "generated_at": "2026-10-20T12:25:00.760053+00:00",
+  "runtime_seconds": 19.1,
+  "label_provenance": "All gold labels were produced by the developer (an AI assistant) from archived sources and are documented in evaluation/gold/*.json. They have not yet been independently verified by a human; treat results as preliminary.",
+  "dataset_profile": {
+    "records": 31,
+    "education_rule": {
+      "levels": 30,
+      "unknown": 1
+    },
+    "discipline_rule": {
+      "strict": 11,
+      "any": 14,
+      "open": 6
+    },
+    "academic_rule": {
+      "none": 7,
+      "unknown": 17,
+      "percentile": 1,
+      "percentage": 5,
+      "cgpa": 1
+    },
+    "income_rule": {
+      "limit": 15,
+      "unknown": 6,
+      "none": 10
+    },
+    "records_with_confirmation_questions": 13,
+    "deadlines_passed_on_2026-10-18": 7
+  },
+  "experiments": [
+    {
+      "id": "E1",
+      "title": "NSP listing parser accuracy",
+      "description": "Deterministic parser vs. labelled values for every scheme row, on the real archived page and on synthetic markup perturbations.",
+      "data": "snapshots/nsp_all_scholarships_2026-10-18.html; gold/nsp_listing_fields.json",
+      "metrics": [
+        {
+          "name": "archived page (real): schemes parsed",
+          "value": 31,
+          "note": "expected 31"
+        },
+        {
+          "name": "archived page (real): field accuracy (open date, deadline, renewal flag)",
+          "value": 1.0,
+          "n": 93
+        },
+        {
+          "name": "whitespace reformatted (synthetic): schemes parsed",
+          "value": 31,
+          "note": "expected 31"
+        },
+        {
+          "name": "whitespace reformatted (synthetic): field accuracy (open date, deadline, renewal flag)",
+          "value": 1.0,
+          "n": 93
+        },
+        {
+          "name": "class order changed (synthetic): schemes parsed",
+          "value": 31,
+          "note": "expected 31"
+        },
+        {
+          "name": "class order changed (synthetic): field accuracy (open date, deadline, renewal flag)",
+          "value": 1.0,
+          "n": 93
+        },
+        {
+          "name": "extra wrapper elements (synthetic): schemes parsed",
+          "value": 31,
+          "note": "expected 31"
+        },
+        {
+          "name": "extra wrapper elements (synthetic): field accuracy (open date, deadline, renewal flag)",
+          "value": 1.0,
+          "n": 93
+        }
+      ],
+      "errors": {
+        "archived page (real)": [],
+        "whitespace reformatted (synthetic)": [],
+        "class order changed (synthetic)": [],
+        "extra wrapper elements (synthetic)": []
+      },
+      "limitations": [
+        "Single real snapshot; real future layout changes may differ from the synthetic perturbations.",
+        "Gold labels were read by the developer from the same page; perfect scores mainly show the parser is faithful, not that it generalises."
+      ]
+    },
+    {
+      "id": "E2",
+      "title": "Entity resolution / duplicate detection",
+      "description": "Linking NSP listing schemes to dataset records. Baseline = name similarity alone (same 0.86 threshold, no discriminator words, no URL/provider signals). An exact-normalized-name baseline is in extra.",
+      "data": "31 schemes on the archived NSP page; gold/entity_resolution.json (28 schemes present in the dataset, 3 absent)",
+      "metrics": [
+        {
+          "name": "Auto-match precision",
+          "value": 1.0,
+          "n": 31
+        },
+        {
+          "name": "Auto-match recall",
+          "value": 0.964,
+          "n": 31
+        },
+        {
+          "name": "Auto-match F1",
+          "value": 0.982,
+          "n": 31
+        },
+        {
+          "name": "Wrong automatic merges",
+          "value": 0,
+          "n": 31
+        },
+        {
+          "name": "Sent to human review",
+          "value": 1,
+          "n": 31
+        }
+      ],
+      "baseline": [
+        {
+          "name": "Auto-match precision",
+          "value": 1.0
+        },
+        {
+          "name": "Auto-match recall",
+          "value": 0.964
+        },
+        {
+          "name": "Auto-match F1",
+          "value": 0.982
+        },
+        {
+          "name": "Wrong automatic merges",
+          "value": 0
+        },
+        {
+          "name": "Sent to human review",
+          "value": 0
+        }
+      ],
+      "extra": {
+        "exact_name": {
+          "precision": 1.0,
+          "recall": 0.857,
+          "f1": 0.923,
+          "wrong_merges": 0,
+          "deferred": 0,
+          "tp": 24
+        }
+      },
+      "limitations": [
+        "Small n (31). Precision is prioritised over recall by design: uncertain pairs go to review."
+      ]
+    },
+    {
+      "id": "E3",
+      "title": "Change detection: material vs cosmetic",
+      "description": "10 labelled revisions of the real NSP page (3 cosmetic, 6 material, 1 new scheme) run through the full pipeline from a fresh database each time, plus 6 labelled HTML page variants for the generic page monitor. Baseline = whole-page byte-hash comparison.",
+      "data": "Synthetic revisions derived from snapshots/nsp_all_scholarships_2026-10-18.html (defined in evaluation/run.py)",
+      "metrics": [
+        {
+          "name": "Field-level change precision",
+          "value": 1.0,
+          "n": 7,
+          "note": "detected (scheme, field) pairs"
+        },
+        {
+          "name": "Field-level change recall",
+          "value": 1.0,
+          "n": 7
+        },
+        {
+          "name": "Field-level change F1",
+          "value": 1.0
+        },
+        {
+          "name": "Revision-level alert precision (listing)",
+          "value": 1.0,
+          "n": 10
+        },
+        {
+          "name": "Revision-level alert recall (listing)",
+          "value": 1.0
+        },
+        {
+          "name": "Cosmetic revisions raising a material alert",
+          "value": 0,
+          "n": 3
+        },
+        {
+          "name": "New scheme candidates created for R10",
+          "value": 1,
+          "note": "expected 1"
+        },
+        {
+          "name": "Page monitor: material-change precision",
+          "value": 1.0,
+          "n": 6
+        },
+        {
+          "name": "Page monitor: material-change recall",
+          "value": 1.0
+        }
+      ],
+      "baseline": [
+        {
+          "name": "Field-level change precision",
+          "value": "not supported"
+        },
+        {
+          "name": "Field-level change recall",
+          "value": "not supported"
+        },
+        {
+          "name": "Field-level change F1",
+          "value": "not supported"
+        },
+        {
+          "name": "Revision-level alert precision (listing)",
+          "value": 0.6
+        },
+        {
+          "name": "Revision-level alert recall (listing)",
+          "value": 1.0
+        },
+        {
+          "name": "Cosmetic revisions raising a material alert",
+          "value": 3
+        },
+        {
+          "name": "New scheme candidates created for R10",
+          "value": "not supported"
+        },
+        {
+          "name": "Page monitor: material-change precision",
+          "value": 0.333
+        },
+        {
+          "name": "Page monitor: material-change recall",
+          "value": 1.0
+        }
+      ],
+      "revisions": [
+        {
+          "revision": "R1",
+          "kind": "cosmetic",
+          "desc": "whitespace / line breaks reformatted",
+          "status": "succeeded",
+          "detected": [],
+          "expected": [],
+          "auto_accepted": 0
+        },
+        {
+          "revision": "R2",
+          "kind": "cosmetic",
+          "desc": "page chrome text changed (title, nav)",
+          "status": "succeeded",
+          "detected": [],
+          "expected": [],
+          "auto_accepted": 0
+        },
+        {
+          "revision": "R3",
+          "kind": "cosmetic",
+          "desc": "scheme name re-capitalised",
+          "status": "succeeded",
+          "detected": [],
+          "expected": [],
+          "auto_accepted": 0
+        },
+        {
+          "revision": "R4",
+          "kind": "material",
+          "desc": "one deadline extended",
+          "status": "succeeded",
+          "detected": [
+            [
+              "IND-NSP-003",
+              "deadline"
+            ]
+          ],
+          "expected": [
+            [
+              "IND-NSP-003",
+              "deadline"
+            ]
+          ],
+          "auto_accepted": 1
+        },
+        {
+          "revision": "R5",
+          "kind": "material",
+          "desc": "opening date changed",
+          "status": "succeeded",
+          "detected": [
+            [
+              "IND-NSP-015",
+              "open_date"
+            ]
+          ],
+          "expected": [
+            [
+              "IND-NSP-015",
+              "open_date"
+            ]
+          ],
+          "auto_accepted": 1
+        },
+        {
+          "revision": "R6",
+          "kind": "material",
+          "desc": "scheme removed from listing",
+          "status": "succeeded",
+          "detected": [
+            [
+              "IND-NSP-016",
+              "listing_presence"
+            ]
+          ],
+          "expected": [
+            [
+              "IND-NSP-016",
+              "listing_presence"
+            ]
+          ],
+          "auto_accepted": 0
+        },
+        {
+          "revision": "R7",
+          "kind": "material",
+          "desc": "two deadlines changed",
+          "status": "succeeded",
+          "detected": [
+            [
+              "IND-NSP-001",
+              "deadline"
+            ],
+            [
+              "IND-NSP-017",
+              "deadline"
+            ]
+          ],
+          "expected": [
+            [
+              "IND-NSP-001",
+              "deadline"
+            ],
+            [
+              "IND-NSP-017",
+              "deadline"
+            ]
+          ],
+          "auto_accepted": 2
+        },
+        {
+          "revision": "R8",
+          "kind": "material",
+          "desc": "window becomes renewal-only",
+          "status": "succeeded",
+          "detected": [
+            [
+              "IND-NSP-022",
+              "renewal_type"
+            ]
+          ],
+          "expected": [
+            [
+              "IND-NSP-022",
+              "renewal_type"
+            ]
+          ],
+          "auto_accepted": 1
+        },
+        {
+          "revision": "R9",
+          "kind": "material",
+          "desc": "reformatted page + one deadline change",
+          "status": "succeeded",
+          "detected": [
+            [
+              "IND-NSP-014",
+              "deadline"
+            ]
+          ],
+          "expected": [
+            [
+              "IND-NSP-014",
+              "deadline"
+            ]
+          ],
+          "auto_accepted": 1
+        },
+        {
+          "revision": "R10",
+          "kind": "discovery",
+          "desc": "new scheme row added (synthetic scheme)",
+          "status": "succeeded",
+          "detected": [],
+          "expected": [],
+          "auto_accepted": 0
+        }
+      ],
+      "limitations": [
+        "Revisions are synthetic edits of a real page; they test the mechanism, not the real-world rate of changes.",
+        "Byte-hash baseline cannot localise which field changed, so field-level metrics do not apply to it."
+      ]
+    },
+    {
+      "id": "E4",
+      "title": "Eligibility classification",
+      "description": "Proposed three-valued engine vs. the project's original v1 engine (baseline) on labelled persona x real-record cases. Extra: ablation of the proposed engine that treats unknown as satisfied.",
+      "data": "gold/eligibility_cases.json: 38 cases ({'undetermined': 12, 'not_eligible': 24, 'eligible': 2}), 6 synthetic personas, 23 real records",
+      "metrics": [
+        {
+          "name": "3-class accuracy",
+          "value": 1.0,
+          "n": 38
+        },
+        {
+          "name": "False-positive eligibility rate",
+          "value": 0.0,
+          "n": 38
+        },
+        {
+          "name": "Wrongful exclusion rate",
+          "value": 0.0,
+          "n": 38
+        },
+        {
+          "name": "Undetermined cases flagged as undetermined",
+          "value": 1.0,
+          "n": 38
+        }
+      ],
+      "baseline": [
+        {
+          "name": "3-class accuracy",
+          "value": 0.158
+        },
+        {
+          "name": "False-positive eligibility rate",
+          "value": 0.861
+        },
+        {
+          "name": "Wrongful exclusion rate",
+          "value": 0.071
+        },
+        {
+          "name": "Undetermined cases flagged as undetermined",
+          "value": 0.0
+        }
+      ],
+      "extra": {
+        "unknown_as_satisfied_ablation": {
+          "3-class accuracy": 0.684,
+          "False-positive eligibility rate": 0.333,
+          "Wrongful exclusion rate": 0.0,
+          "Undetermined cases flagged as undetermined": 0.0
+        },
+        "error_analysis": {
+          "undetermined_by_unknown_reasons": {
+            "needs_confirmation": 4,
+            "scholarship_unresolved": 3,
+            "needs_confirmation+scholarship_unresolved": 1,
+            "needs_confirmation+scholarship_unresolved+student_missing": 1,
+            "student_missing": 3
+          },
+          "not_eligible_by_first_failed_criterion": {
+            "Beneficiary group": 4,
+            "Disability": 1,
+            "Education level": 7,
+            "State / domicile": 2,
+            "Family income": 4,
+            "Year of study": 1,
+            "Course / discipline": 3,
+            "Category": 2
+          }
+        }
+      },
+      "cases": [
+        {
+          "persona": "P1",
+          "scholarship": "IND-NSP-003",
+          "expected": "undetermined",
+          "proposed": "undetermined",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "eligible",
+          "unknown_reasons": [
+            "needs_confirmation"
+          ],
+          "first_failed": null
+        },
+        {
+          "persona": "P1",
+          "scholarship": "IND-NSP-001",
+          "expected": "not_eligible",
+          "proposed": "not_eligible",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "not_eligible",
+          "unknown_reasons": [],
+          "first_failed": "Beneficiary group"
+        },
+        {
+          "persona": "P1",
+          "scholarship": "IND-NSP-005",
+          "expected": "not_eligible",
+          "proposed": "not_eligible",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "not_eligible",
+          "unknown_reasons": [],
+          "first_failed": "Disability"
+        },
+        {
+          "persona": "P1",
+          "scholarship": "IND-NSP-004",
+          "expected": "not_eligible",
+          "proposed": "not_eligible",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "not_eligible",
+          "unknown_reasons": [
+            "needs_confirmation"
+          ],
+          "first_failed": "Education level"
+        },
+        {
+          "persona": "P1",
+          "scholarship": "IND-PRI-001",
+          "expected": "eligible",
+          "proposed": "eligible",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "eligible",
+          "unknown_reasons": [],
+          "first_failed": null
+        },
+        {
+          "persona": "P1",
+          "scholarship": "IND-NSP-015",
+          "expected": "not_eligible",
+          "proposed": "not_eligible",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "not_eligible",
+          "unknown_reasons": [],
+          "first_failed": "State / domicile"
+        },
+        {
+          "persona": "P1",
+          "scholarship": "IND-NSP-029",
+          "expected": "not_eligible",
+          "proposed": "not_eligible",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "not_eligible",
+          "unknown_reasons": [
+            "scholarship_unresolved"
+          ],
+          "first_failed": "State / domicile"
+        },
+        {
+          "persona": "P2",
+          "scholarship": "IND-NSP-003",
+          "expected": "not_eligible",
+          "proposed": "not_eligible",
+          "legacy_v1": "not_eligible",
+          "unknown_as_satisfied": "not_eligible",
+          "unknown_reasons": [
+            "needs_confirmation"
+          ],
+          "first_failed": "Family income"
+        },
+        {
+          "persona": "P2",
+          "scholarship": "IND-NSP-001",
+          "expected": "not_eligible",
+          "proposed": "not_eligible",
+          "legacy_v1": "not_eligible",
+          "unknown_as_satisfied": "not_eligible",
+          "unknown_reasons": [],
+          "first_failed": "Family income"
+        },
+        {
+          "persona": "P2",
+          "scholarship": "IND-PRI-001",
+          "expected": "not_eligible",
+          "proposed": "not_eligible",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "not_eligible",
+          "unknown_reasons": [],
+          "first_failed": "Year of study"
+        },
+        {
+          "persona": "P2",
+          "scholarship": "IND-NSP-007",
+          "expected": "not_eligible",
+          "proposed": "not_eligible",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "not_eligible",
+          "unknown_reasons": [
+            "scholarship_unresolved"
+          ],
+          "first_failed": "Beneficiary group"
+        },
+        {
+          "persona": "P2",
+          "scholarship": "IND-NSP-017",
+          "expected": "not_eligible",
+          "proposed": "not_eligible",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "not_eligible",
+          "unknown_reasons": [
+            "needs_confirmation",
+            "scholarship_unresolved"
+          ],
+          "first_failed": "Course / discipline"
+        },
+        {
+          "persona": "P2",
+          "scholarship": "IND-NSP-014",
+          "expected": "not_eligible",
+          "proposed": "not_eligible",
+          "legacy_v1": "not_eligible",
+          "unknown_as_satisfied": "not_eligible",
+          "unknown_reasons": [
+            "needs_confirmation"
+          ],
+          "first_failed": "Family income"
+        },
+        {
+          "persona": "P2",
+          "scholarship": "IND-NSP-022",
+          "expected": "not_eligible",
+          "proposed": "not_eligible",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "not_eligible",
+          "unknown_reasons": [],
+          "first_failed": "Beneficiary group"
+        },
+        {
+          "persona": "P3",
+          "scholarship": "IND-NSP-025",
+          "expected": "undetermined",
+          "proposed": "undetermined",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "eligible",
+          "unknown_reasons": [
+            "scholarship_unresolved"
+          ],
+          "first_failed": null
+        },
+        {
+          "persona": "P3",
+          "scholarship": "IND-NSP-012",
+          "expected": "not_eligible",
+          "proposed": "not_eligible",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "not_eligible",
+          "unknown_reasons": [
+            "scholarship_unresolved"
+          ],
+          "first_failed": "Education level"
+        },
+        {
+          "persona": "P3",
+          "scholarship": "IND-NSP-008",
+          "expected": "not_eligible",
+          "proposed": "not_eligible",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "not_eligible",
+          "unknown_reasons": [
+            "scholarship_unresolved"
+          ],
+          "first_failed": "Beneficiary group"
+        },
+        {
+          "persona": "P3",
+          "scholarship": "IND-NSP-009",
+          "expected": "not_eligible",
+          "proposed": "not_eligible",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "not_eligible",
+          "unknown_reasons": [
+            "needs_confirmation",
+            "scholarship_unresolved"
+          ],
+          "first_failed": "Category"
+        },
+        {
+          "persona": "P3",
+          "scholarship": "IND-NSP-011",
+          "expected": "not_eligible",
+          "proposed": "not_eligible",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "not_eligible",
+          "unknown_reasons": [
+            "needs_confirmation",
+            "scholarship_unresolved"
+          ],
+          "first_failed": "Education level"
+        },
+        {
+          "persona": "P3",
+          "scholarship": "IND-PRI-003",
+          "expected": "undetermined",
+          "proposed": "undetermined",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "eligible",
+          "unknown_reasons": [
+            "scholarship_unresolved"
+          ],
+          "first_failed": null
+        },
+        {
+          "persona": "P4",
+          "scholarship": "IND-NSP-018",
+          "expected": "undetermined",
+          "proposed": "undetermined",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "eligible",
+          "unknown_reasons": [
+            "needs_confirmation",
+            "scholarship_unresolved"
+          ],
+          "first_failed": null
+        },
+        {
+          "persona": "P4",
+          "scholarship": "IND-NSP-021",
+          "expected": "undetermined",
+          "proposed": "undetermined",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "eligible",
+          "unknown_reasons": [
+            "needs_confirmation",
+            "scholarship_unresolved",
+            "student_missing"
+          ],
+          "first_failed": null
+        },
+        {
+          "persona": "P4",
+          "scholarship": "IND-NSP-015",
+          "expected": "undetermined",
+          "proposed": "undetermined",
+          "legacy_v1": "not_eligible",
+          "unknown_as_satisfied": "eligible",
+          "unknown_reasons": [
+            "student_missing"
+          ],
+          "first_failed": null
+        },
+        {
+          "persona": "P4",
+          "scholarship": "IND-PRI-002",
+          "expected": "undetermined",
+          "proposed": "undetermined",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "eligible",
+          "unknown_reasons": [
+            "needs_confirmation"
+          ],
+          "first_failed": null
+        },
+        {
+          "persona": "P4",
+          "scholarship": "IND-NSP-003",
+          "expected": "not_eligible",
+          "proposed": "not_eligible",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "not_eligible",
+          "unknown_reasons": [
+            "needs_confirmation",
+            "student_missing"
+          ],
+          "first_failed": "Education level"
+        },
+        {
+          "persona": "P4",
+          "scholarship": "IND-NSP-017",
+          "expected": "not_eligible",
+          "proposed": "not_eligible",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "not_eligible",
+          "unknown_reasons": [
+            "needs_confirmation",
+            "scholarship_unresolved"
+          ],
+          "first_failed": "Education level"
+        },
+        {
+          "persona": "P5",
+          "scholarship": "IND-NSP-007",
+          "expected": "undetermined",
+          "proposed": "undetermined",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "eligible",
+          "unknown_reasons": [
+            "scholarship_unresolved"
+          ],
+          "first_failed": null
+        },
+        {
+          "persona": "P5",
+          "scholarship": "IND-PRI-001",
+          "expected": "eligible",
+          "proposed": "eligible",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "eligible",
+          "unknown_reasons": [],
+          "first_failed": null
+        },
+        {
+          "persona": "P5",
+          "scholarship": "IND-NSP-014",
+          "expected": "undetermined",
+          "proposed": "undetermined",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "eligible",
+          "unknown_reasons": [
+            "needs_confirmation"
+          ],
+          "first_failed": null
+        },
+        {
+          "persona": "P5",
+          "scholarship": "IND-NSP-001",
+          "expected": "not_eligible",
+          "proposed": "not_eligible",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "not_eligible",
+          "unknown_reasons": [],
+          "first_failed": "Course / discipline"
+        },
+        {
+          "persona": "P5",
+          "scholarship": "IND-NSP-026",
+          "expected": "not_eligible",
+          "proposed": "not_eligible",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "not_eligible",
+          "unknown_reasons": [
+            "needs_confirmation",
+            "scholarship_unresolved"
+          ],
+          "first_failed": "Course / discipline"
+        },
+        {
+          "persona": "P5",
+          "scholarship": "IND-NSP-019",
+          "expected": "not_eligible",
+          "proposed": "not_eligible",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "not_eligible",
+          "unknown_reasons": [
+            "scholarship_unresolved"
+          ],
+          "first_failed": "Category"
+        },
+        {
+          "persona": "P6",
+          "scholarship": "IND-NSP-004",
+          "expected": "undetermined",
+          "proposed": "undetermined",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "eligible",
+          "unknown_reasons": [
+            "needs_confirmation"
+          ],
+          "first_failed": null
+        },
+        {
+          "persona": "P6",
+          "scholarship": "IND-NSP-006",
+          "expected": "undetermined",
+          "proposed": "undetermined",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "eligible",
+          "unknown_reasons": [
+            "student_missing"
+          ],
+          "first_failed": null
+        },
+        {
+          "persona": "P6",
+          "scholarship": "IND-NSP-002",
+          "expected": "undetermined",
+          "proposed": "undetermined",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "eligible",
+          "unknown_reasons": [
+            "student_missing"
+          ],
+          "first_failed": null
+        },
+        {
+          "persona": "P6",
+          "scholarship": "IND-NSP-003",
+          "expected": "not_eligible",
+          "proposed": "not_eligible",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "not_eligible",
+          "unknown_reasons": [
+            "needs_confirmation"
+          ],
+          "first_failed": "Education level"
+        },
+        {
+          "persona": "P6",
+          "scholarship": "IND-PRI-001",
+          "expected": "not_eligible",
+          "proposed": "not_eligible",
+          "legacy_v1": "eligible",
+          "unknown_as_satisfied": "not_eligible",
+          "unknown_reasons": [],
+          "first_failed": "Education level"
+        },
+        {
+          "persona": "P6",
+          "scholarship": "IND-NSP-012",
+          "expected": "not_eligible",
+          "proposed": "not_eligible",
+          "legacy_v1": "not_eligible",
+          "unknown_as_satisfied": "not_eligible",
+          "unknown_reasons": [
+            "scholarship_unresolved",
+            "student_missing"
+          ],
+          "first_failed": "Family income"
+        }
+      ],
+      "limitations": [
+        "Labels were written by the developer who also wrote the rules: risk of shared interpretation. A human-labelled set is needed before claiming accuracy.",
+        "The v1 baseline has no 'undetermined' output, so its undetermined recall is 0 by construction; false-positive eligibility is the fairest comparison."
+      ]
+    },
+    {
+      "id": "E5",
+      "title": "Freshness ablation: static dataset vs. monitored data",
+      "description": "On 2026-10-18, which application windows does each variant show correctly, using the official NSP listing archived that day as ground truth? B0 = dataset status text, B1 = static dataset dates, Proposed = dates after one monitored check (deterministic parser, auto-accepted under policy).",
+      "data": "28 dataset records that appear on the archived NSP listing; job succeeded",
+      "metrics": [
+        {
+          "name": "Deadline equals official listing",
+          "value": 1.0,
+          "n": 28
+        },
+        {
+          "name": "Open/closed status correct",
+          "value": 1.0,
+          "n": 28
+        },
+        {
+          "name": "Records wrongly shown as closed",
+          "value": 0
+        },
+        {
+          "name": "Actionable matches hidden as 'closed' (6 personas)",
+          "value": 0,
+          "n": 19
+        }
+      ],
+      "baseline": [
+        {
+          "name": "Deadline equals official listing",
+          "value": 0.821
+        },
+        {
+          "name": "Open/closed status correct",
+          "value": 0.821,
+          "note": "B1 static dates"
+        },
+        {
+          "name": "Records wrongly shown as closed",
+          "value": 5
+        },
+        {
+          "name": "Actionable matches hidden as 'closed' (6 personas)",
+          "value": 4
+        }
+      ],
+      "extra": {
+        "b0_status_text_accuracy": 1.0,
+        "wrongly_closed_static": [
+          "IND-NSP-008",
+          "IND-NSP-009",
+          "IND-NSP-014",
+          "IND-NSP-025",
+          "IND-NSP-029"
+        ],
+        "note_b0": "B0 marks every record ACTIVE. It is right for these NSP records only because all of them happen to be open; it is wrong for the Tata Trusts record, whose official page said on 2026-10-18 that the programme is closed for 2026-27 (observed by the page monitor, pending review), and it has no notion of passed deadlines."
+      },
+      "limitations": [
+        "One snapshot date. Ground truth is the official listing, which can itself be wrong or late.",
+        "Covers only records present on the NSP listing (private schemes are not in this ground truth)."
+      ]
+    },
+    {
+      "id": "E6",
+      "title": "AI extraction accuracy (quote-verified)",
+      "description": "The configured LLM extracts fields from 3 archived official documents; values without a verbatim, context-appropriate quote are rejected before scoring. Pooled over every archived run in results/e6_runs.jsonl (each document scored each time the provider was available).",
+      "data": "gold/extraction.json (3 documents, hand-checked); 3 archived runs; 5 scored document-runs; 4 document-runs lost to provider errors",
+      "metrics": [
+        {
+          "name": "Field accuracy (pooled)",
+          "value": 0.952,
+          "n": 21
+        },
+        {
+          "name": "Documents scored at least once",
+          "value": 3,
+          "n": 3,
+          "note": "aicte_swanath_guideline, depwd_post_matric, nmms_guideline"
+        },
+        {
+          "name": "Hallucinated values where the document states nothing",
+          "value": 1,
+          "n": 8
+        },
+        {
+          "name": "Model values rejected by quote/context validation",
+          "value": 5
+        },
+        {
+          "name": "Document-runs lost to provider errors (HTTP 503 overload or 429 quota)",
+          "value": 4,
+          "n": 9
+        },
+        {
+          "name": "Mean seconds per scored document",
+          "value": 23.85,
+          "n": 4
+        }
+      ],
+      "misses": [
+        {
+          "run_at": "2026-10-20T11:58:17.373994+00:00",
+          "doc": "aicte_swanath_guideline",
+          "field": "min_disability_percent",
+          "expected": null,
+          "got": 80.0
+        }
+      ],
+      "this_run": null,
+      "limitations": [
+        "Three documents only; LLM output is non-deterministic and provider availability varied between runs.",
+        "Cost per document was not metered."
+      ]
+    },
+    {
+      "id": "E7",
+      "title": "Operational metrics (live database)",
+      "description": "Counts from the real crawl history of this installation (real network checks).",
+      "data": "scholarscope.db; jobs {'succeeded': 9}",
+      "metrics": [
+        {
+          "name": "Source-check success rate",
+          "value": 1.0,
+          "n": 9
+        },
+        {
+          "name": "Changes auto-accepted under policy",
+          "value": 14
+        },
+        {
+          "name": "Changes waiting for review (manual-review load)",
+          "value": 0
+        },
+        {
+          "name": "Candidates with failed AI extraction",
+          "value": 1,
+          "n": 4
+        },
+        {
+          "name": "Change-detection latency",
+          "value": null,
+          "note": "not measured: the true time a source changed is unknown"
+        }
+      ]
+    }
+  ]
+}

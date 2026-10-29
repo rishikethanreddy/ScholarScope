@@ -1,0 +1,12 @@
+{
+  "_comment": "Soft relevance weights. The score ranks scholarships the student is not excluded from; it is NOT a probability of selection and does not affect eligibility. Each factor is in [0,1]; the score is 100 * sum(w*f) / sum(w).",
+  "weights": {
+    "targeting": 0.30,
+    "academic_margin": 0.20,
+    "financial_need_fit": 0.20,
+    "benefit_size": 0.15,
+    "criteria_certainty": 0.15
+  },
+  "benefit_reference_inr": 200000,
+  "neutral_value": 0.5
+}
